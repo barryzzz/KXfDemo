@@ -80,23 +80,23 @@ public class MainActivity extends AppCompatActivity implements VoiceButton.OnTou
 
     @Override
     public void onTouchDown() {
-        speechRecognizer.startListening(this);
+        startVoice();
     }
 
     @Override
     public void onTouchUp() {
-        speechRecognizer.stopListening();
+        stopVoice();
     }
 
     //开始听
     public void startVoice(View v) {
-        speechRecognizer.startListening(this);
+        startVoice();
 
     }
 
     //停止听
     public void stopVoice(View v) {
-        speechRecognizer.stopListening();
+        stopVoice();
     }
 
     @Override
@@ -131,8 +131,9 @@ public class MainActivity extends AppCompatActivity implements VoiceButton.OnTou
             if (b) {
                 loge("recognize finish");
                 toast(stringBuffer.toString());//得到结果
+                loge(stringBuffer.toString());
                 stringBuffer.setLength(0);
-//                speechRecognizer.startListening(this);
+                startVoice();
             }
         } else {
             loge("识别结果为空");
@@ -142,16 +143,34 @@ public class MainActivity extends AppCompatActivity implements VoiceButton.OnTou
 
     @Override
     public void onError(SpeechError speechError) {
+        loge(speechError.getErrorDescription() + speechError.getErrorCode());
         if (speechError.getErrorCode() == ErrorCode.MSP_ERROR_NO_DATA) {
             toast(speechError.getErrorDescription());
         } else {
             toast("onError Code：" + speechError.getErrorCode() + " " + speechError.getErrorDescription());
         }
+        startVoice();
     }
 
     @Override
     public void onEvent(int i, int i1, int i2, Bundle bundle) {
 
+    }
+
+    /**
+     * 开始
+     */
+    private void startVoice() {
+        if (speechRecognizer != null)
+            speechRecognizer.startListening(this);
+    }
+
+    /**
+     * 结束
+     */
+    private void stopVoice() {
+        if (speechRecognizer != null)
+            speechRecognizer.stopListening();
     }
 
 
