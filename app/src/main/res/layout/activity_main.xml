@@ -12,22 +12,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="长按说话识别 "
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="startVoice"
-        android:text="开始识别" />
+        android:text="开始识别任务" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="stopVoice"
-        android:text="停止识别" />
+        android:text="停止识别任务" />
 
 
 </LinearLayout>

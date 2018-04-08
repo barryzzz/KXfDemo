@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements VoiceButton.OnTou
 
     private StringBuffer stringBuffer;
 
+    private boolean isWork = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,12 +92,13 @@ public class MainActivity extends AppCompatActivity implements VoiceButton.OnTou
 
     //开始听
     public void startVoice(View v) {
+        isWork = true;
         startVoice();
-
     }
 
     //停止听
     public void stopVoice(View v) {
+        isWork = false;
         stopVoice();
     }
 
@@ -133,10 +136,10 @@ public class MainActivity extends AppCompatActivity implements VoiceButton.OnTou
                 toast(stringBuffer.toString());//得到结果
                 loge(stringBuffer.toString());
                 stringBuffer.setLength(0);
-                startVoice();
             }
+            startVoice();
         } else {
-            loge("识别结果为空");
+            loge("识别结果异常,循环监听停止");
         }
 
     }
@@ -146,10 +149,13 @@ public class MainActivity extends AppCompatActivity implements VoiceButton.OnTou
         loge(speechError.getErrorDescription() + speechError.getErrorCode());
         if (speechError.getErrorCode() == ErrorCode.MSP_ERROR_NO_DATA) {
             toast(speechError.getErrorDescription());
+            startVoice();
         } else {
             toast("onError Code：" + speechError.getErrorCode() + " " + speechError.getErrorDescription());
+
+            loge("onError Code：" + speechError.getErrorCode() + " " + speechError.getErrorDescription());
+            loge("抛出异常,循环监听停止");
         }
-        startVoice();
     }
 
     @Override
@@ -161,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements VoiceButton.OnTou
      * 开始
      */
     private void startVoice() {
-        if (speechRecognizer != null)
+        if (speechRecognizer != null && isWork)
             speechRecognizer.startListening(this);
     }
 
@@ -169,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements VoiceButton.OnTou
      * 结束
      */
     private void stopVoice() {
-        if (speechRecognizer != null)
+        if (speechRecognizer != null && isWork)
             speechRecognizer.stopListening();
     }
 
