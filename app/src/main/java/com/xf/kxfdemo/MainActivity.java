@@ -82,12 +82,12 @@ public class MainActivity extends AppCompatActivity implements VoiceButton.OnTou
 
     @Override
     public void onTouchDown() {
-        startVoice();
+//        startVoice();
     }
 
     @Override
     public void onTouchUp() {
-        stopVoice();
+//        stopVoice();
     }
 
     //开始听
